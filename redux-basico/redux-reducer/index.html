@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redux</title>
+    <script src="./redux.min.js"></script>
+  </head>
+  <body>
+    <h1>Total: <span id="total">10</span></h1>
+    <button id="incrementar">Incrementar</button>
+    <button id="abrir">Abrir</button>
+    <button id="fechar">Fechar</button>
+    <script>
+      const INCREMENTAR = "INCREMENTAR";
+      const REDUZIR = "REDUZIR";
+      const SOMAR = "SOMAR";
+
+      const incrementar = () => {
+        return {
+          type: INCREMENTAR,
+        };
+      };
+
+      const reduzir = () => {
+        return {
+          type: REDUZIR,
+        };
+      };
+
+      const somar = (value) => {
+        return {
+          type: SOMAR,
+          payload: value,
+        };
+      };
+
+      function contador(state = 10, action) {
+        switch(action.type) {
+          case INCREMENTAR: 
+            return state + 1;
+          case REDUZIR: 
+            return state - 1;
+          case SOMAR: 
+            return state + action.payload;
+          default:
+            return state
+        }
+      }
+
+      function modal(state = true, action) {
+        switch(action.type) {
+          case 'ABRIR': 
+            return true;
+          case 'FECHAR': 
+            return false;
+          default: 
+            return state
+        }
+      }
+
+      const reducer = Redux.combineReducers({contador, modal})
+      const store = Redux.createStore(reducer);
+
+      function render() {
+        let {contador, modal} = store.getState();
+        const total = document.getElementById("total");
+        console.log(store.getState())
+        total.innerText = contador;
+        if(modal) {
+          total.style.display = 'inline'
+        } else {
+          total.style.display = 'none'
+        }
+      }
+
+      const unsubscribe = store.subscribe(render);
+      // unsubscribe();
+
+      const btnIncrementar = document.getElementById("incrementar");
+      btnIncrementar.addEventListener("click", () => store.dispatch(incrementar()));
+      
+      const btnAbrir = document.getElementById("abrir");
+      btnAbrir.addEventListener("click", () => store.dispatch({type: 'ABRIR'}));
+
+      const btnFechar = document.getElementById("fechar");
+      btnFechar.addEventListener("click", () => store.dispatch({type: 'FECHAR'}));
+      
+    </script>
+  </body>
+</html>

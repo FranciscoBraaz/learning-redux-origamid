@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redux</title>
+    <script src="./immer.umd.production.min.js"></script>
+    <script src="./redux.min.js"></script>
+  </head>
+  <body>
+    <script>
+      const initialState = {
+        nome: "Francisco",
+        id: 1,
+      };
+
+      // const newState = immer.produce(initialState, (draft) => {
+      //   draft.nome = 'Braz'
+      // })
+
+      // console.log(initialState === newState)
+
+      const reducer = immer.produce((state, action) => {
+        switch (action.type) {
+          case "MUDAR_NOME":
+            state.nome = action.payload;
+            break;
+        }
+      }, initialState);
+
+      const store = Redux.createStore(
+        reducer,
+        window.__REDUX_DEVTOOLS_EXTENSION__ &&
+          window.__REDUX_DEVTOOLS_EXTENSION__()
+      );
+
+      store.dispatch({ type: "MUDAR_NOME", payload: "Braz" });
+      store.dispatch({ type: "MUDAR_NOME", payload: "Souza" });
+      console.log(store.getState());
+    </script>
+  </body>
+</html>

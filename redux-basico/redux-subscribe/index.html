@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redux</title>
+    <script src="./redux.min.js"></script>
+  </head>
+  <body>
+    <h1>Total: <span id="total">10</span></h1>
+    <button id="incrementar">Incrementar</button>
+    <script>
+      const INCREMENTAR = "INCREMENTAR";
+      const REDUZIR = "REDUZIR";
+      const SOMAR = "SOMAR";
+
+      const incrementar = () => {
+        return {
+          type: INCREMENTAR,
+        };
+      };
+
+      const reduzir = () => {
+        return {
+          type: REDUZIR,
+        };
+      };
+
+      const somar = (value) => {
+        return {
+          type: SOMAR,
+          payload: value,
+        };
+      };
+
+      function reducer(state = 10, action) {
+        if (action.type === INCREMENTAR) {
+          return state + 1;
+        }
+        if (action.type === REDUZIR) {
+          return state - 1;
+        }
+        if (action.type === SOMAR) {
+          return state + action.payload;
+        }
+        return state;
+      }
+
+      const store = Redux.createStore(reducer);
+
+      function render() {
+        let state = store.getState();
+        const total = document.getElementById("total");
+        total.innerText = state;
+      }
+
+      const unsubscribe = store.subscribe(render);
+      // unsubscribe();
+
+      const button = document.getElementById("incrementar");
+      button.addEventListener("click", () => store.dispatch(incrementar()));
+      state = store.getState();
+    </script>
+  </body>
+</html>
