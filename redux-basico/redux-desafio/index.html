@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redux</title>
+    <script src="./immer.umd.production.min.js"></script>
+    <script src="./redux.min.js"></script>
+  </head>
+  <body>
+    <h1>Aluno: <span id="nome"></span></h1>
+    <div>
+      <p>Nome: <span id="email"></span></p>
+      <p>Dias: <span id="dias"></span></p>
+    </div>
+    <br />
+    <div>
+      <button id="btnAumentar">Aumentar dias</button>
+      <button id="btnDiminuir">Diminuir dias</button>
+      <label>Trocar email:</label>
+      <input type="text" id="inputEmail" />
+      <button id="btnTrocarEmail">Trocar email</button>
+    </div>
+    <br />
+    <br />
+    <h2>Total de aulas: <span id="totalAulas"></span></h2>
+    <div>
+      <label>ID da aula que deseja completar:</label>
+      <input type="number" id="inputIdAula" />
+      <button id="btnCompletarAula">Completar aula</button>
+      <button id="btnCompletarCurso">Completar curso</button>
+      <button id="btnResetarCurso">Resetar curso</button>
+    </div>
+
+    <script type="module">
+      import {
+        incrementarTempo,
+        reduzirTempo,
+        modificarEmail,
+      } from "./store/aluno.js";
+      import {
+        completarAula,
+        completarCurso,
+        resetarCurso,
+      } from "./store/aulas.js";
+      import store from "./store/configureStore.js";
+
+      function render() {
+        const { aluno, aulas } = store.getState();
+        const nome = document.getElementById("nome");
+        const email = document.getElementById("email");
+        const dias = document.getElementById("dias");
+        const totalAulasEl = document.getElementById("totalAulas");
+        const totalAulas = aulas.reduce((acumulador, item) => {
+          if (item.completa === true) {
+            acumulador += 1;
+          }
+          return acumulador;
+        }, 0);
+
+        nome.innerText = aluno.nome;
+        email.innerText = aluno.email;
+        dias.innerText = aluno.diasRestantes;
+        totalAulasEl.innerText = totalAulas;
+      }
+      render();
+
+      store.subscribe(render);
+
+      /* Buttons and inputs of 'aluno'*/
+      const btnAumentarDias = document.getElementById("btnAumentar");
+      const btnDiminuirDias = document.getElementById("btnDiminuir");
+      const inputTrocarEmail = document.getElementById("inputEmail");
+      const btnTrocarEmail = document.getElementById("btnTrocarEmail");
+
+      /* Buttons and inputs of 'aulas'*/
+      const btnCompletarAula = document.getElementById("btnCompletarAula");
+      const btnCompletarCurso = document.getElementById("btnCompletarCurso");
+      const inputIdAula = document.getElementById("inputIdAula");
+      const btnResetarCurso = document.getElementById("btnResetarCurso");
+
+      /* Dispatchs of 'aluno'*/
+      btnAumentarDias.addEventListener("click", () =>
+        store.dispatch(incrementarTempo())
+      );
+      btnDiminuirDias.addEventListener("click", () =>
+        store.dispatch(reduzirTempo())
+      );
+      btnTrocarEmail.addEventListener("click", () =>
+        store.dispatch(modificarEmail(inputTrocarEmail.value))
+      );
+
+      /* Dispatchs of 'aulas'*/
+      btnCompletarAula.addEventListener("click", () =>
+        store.dispatch(completarAula(Number(inputIdAula.value)))
+      );
+      btnCompletarCurso.addEventListener("click", () =>
+        store.dispatch(completarCurso())
+      );
+      btnResetarCurso.addEventListener("click", () =>
+        store.dispatch(resetarCurso())
+      );
+    </script>
+  </body>
+</html>
