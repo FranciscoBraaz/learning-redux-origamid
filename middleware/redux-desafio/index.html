@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redux</title>
+    <script src="./redux.min.js"></script>
+  </head>
+  <body>
+    <h2>Fazer login</h2>
+    <button id="login">Login</button>
+    <script type="module">
+      import { fetchToken } from "./store/token.js";
+      import { fetchUser } from "./store/user.js";
+      import store from "./store/configureStore.js";
+      import { getTokenLocalStorage } from "./helper/getTokenLocalStorage.js";
+
+      async function login() {
+        let state = store.getState();
+        if (state.token.data === null) {
+          await store.dispatch(
+            fetchToken("https://dogsapi.origamid.dev/json/jwt-auth/v1/token")
+          );
+
+          state = store.getState();
+        }
+
+        await store.dispatch(
+          fetchUser(
+            "https://dogsapi.origamid.dev/json/api/user",
+            state.token.data
+          )
+        );
+
+        state = store.getState();
+        console.log(state);
+      }
+
+      const btnLogin = document.getElementById("login");
+      btnLogin.addEventListener("click", login);
+    </script>
+  </body>
+</html>
