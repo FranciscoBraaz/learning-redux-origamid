@@ -1,5 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { combineReducers } from 'redux';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 // import { logger } from '../middleware/logger';
 import contador from './contador';
 import modal from './modal';
