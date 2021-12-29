@@ -4,8 +4,18 @@ const slice = createSlice({
   name: 'contador',
   initialState: 0,
   reducers: {
-    incrementar: (state) => state + 1,
-    reduzir: (state) => state - 1,
+    incrementar: {
+      reducer: (state) => state + 1,
+      prepare(payload) {
+        return { payload, meta: 'localIncrementar' };
+      },
+    },
+    reduzir: {
+      reducer: (state) => state - 1,
+      prepare(payload) {
+        return { payload, meta: 'localReduzir' };
+      },
+    },
   },
 });
 

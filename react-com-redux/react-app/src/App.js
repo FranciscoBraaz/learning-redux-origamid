@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchLogin } from './store/login';
+import { fetchLogin, autoLogin } from './store/login';
 
 function App() {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.login.user);
+  const state = useSelector((state) => state);
+  console.log(state);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    dispatch(autoLogin());
+  }, [dispatch]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -38,7 +43,6 @@ function App() {
           Entrar
         </button>
       </form>
-      <h1>{data?.email}</h1>
     </div>
   );
 }
