@@ -1,22 +1,25 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Photos } from './components/Photos';
-import { addDate } from './store/date';
+// import { useState } from 'react';
+// import { useDispatch } from 'react-redux';
+import { Product } from './components/Product';
+import './App.css';
+import { Filter } from './components/Filter';
+// import { Photos } from './components/Photos';
+// import { addDate } from './store/date';
 
 function App() {
-  const dispatch = useDispatch();
-  const [departure, setDeparture] = useState('');
-  const [returnDate, setReturnDate] = useState('');
-  const [togglePhotos, setTogglePhotos] = useState(false);
+  // const dispatch = useDispatch();
+  // const [departure, setDeparture] = useState('');
+  // const [returnDate, setReturnDate] = useState('');
+  // const [togglePhotos, setTogglePhotos] = useState(false);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    dispatch(addDate({ departure, returnDate }));
-  }
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //   dispatch(addDate({ departure, returnDate }));
+  // }
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <p>
           <label htmlFor="departure" style={{ marginRight: '10px' }}>
             Partida
@@ -46,7 +49,9 @@ function App() {
         <div style={{ marginTop: '10px' }}>
           <Photos />
         </div>
-      )}
+      )} */}
+      <Filter />
+      <Product />
     </div>
   );
 }
