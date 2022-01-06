@@ -11,7 +11,7 @@
 	 - Imutabilidade
 	 - Organização
 	 
- - Middleware - Nessa módulo aprendi as principais ideias e o funcionamento geral de middlewares. O módulo apresenta os seguintes conteúdos:
+ - Middleware - Nesse módulo aprendi as principais ideias e o funcionamento geral de middlewares. O módulo apresenta os seguintes conteúdos:
 	 - Currying
 	 - Redux Middleware
 	 - Redux Thunk
